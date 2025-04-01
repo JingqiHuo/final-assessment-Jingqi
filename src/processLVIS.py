@@ -58,24 +58,20 @@ class lvisGround(lvisData):
     # allocate space for ground elevation
     self.zG=np.full(self.nWaves,-999.9)  # no data flag for now
 
-    from sys import exit
-    print("CofG function not finished. Use online resources or week 4 code to finish")
-    exit()   # leave the program as this method is incomplete
-
+    # loop over waveforms
+    for i in range(0,self.nWaves):
+      if(np.sum(self.denoised[i])>0.0):   # avoid empty waveforms (clouds etc)
+        self.zG[i]=np.average(self.z[i],weights=self.denoised[i])  # centre of gravity
 
   #######################################################
 
-  def reproject(self,inEPSG,outEPSG):
-    '''
-    Reproject footprint coordinates
-    '''
+  def reprojectLVIS(self,outEPSG):
+    '''A method to reproject the footprint coordinates'''
     # set projections
-    inProj=Proj("epsg:"+str(inEPSG))
+    inProj=Proj("epsg:4326")
     outProj=Proj("epsg:"+str(outEPSG))
     # reproject data
-    x,y=transform(inProj,outProj,self.lon,self.lat)
-    self.lon=x
-    self.lat=y
+    self.x,self.y=transform(inProj, outProj, self.lat, self.lon)
 
 
   ##############################################
@@ -114,7 +110,7 @@ class lvisGround(lvisData):
 
     # loop over waves
     for i in range(0,self.nWaves):
-      print("Denoising wave",i+1,"of",self.nWaves)
+      #print("Denoising wave",i+1,"of",self.nWaves)
 
       # subtract mean background noise
       self.denoised[i]=self.waves[i]-self.meanNoise[i]
