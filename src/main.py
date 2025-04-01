@@ -2,19 +2,15 @@ import rasterio
 import glob
 from batch_process import get_image_filenames,generate_tiff
 from rasterio.merge import merge
-from merge_2015 import task3_merge2015
-
+from merge_year import task3_merge
+import matplotlib.pyplot as plt
+from Connect_route import save_as_tiff,read_and_preprocess_tiff,connect_nearest_contours
 if __name__=="__main__":
-    #filepath_2009 = '/geos/netdata/oosa/assignment/lvis/2009/*.h5'
-    #filepath_2015 = '/geos/netdata/oosa/assignment/lvis/2015/*.h5'
-    #filelist_2009 = glob(filepath_2009)
-    #filelist_2015 = glob(filepath_2015)
-    #print(filelist_2009+filelist_2015)
-    #print("Program paused. Press Enter to continue...")
-    #input()  
-    #testpath ='/geos/netdata/oosa/assignment/lvis/2015/ILVIS1B_AQ2015_1017_R1605_069264.h5'
-
+   
+    # Extract tif files from raw data
     #generate_tiff()
+    #generate_tiff()
+    # 
     root ='./tifs'
     dirs = get_image_filenames(root)
     # Get the keys of the dictionary in insertion order
@@ -31,8 +27,10 @@ if __name__=="__main__":
         
         if( '2015' in dir_folder):
           root ='./tifs/2015/'
+          year = 2015
         else:
           root ='./tifs/2009/'
+          year = 2009
         tif_path = str(root + dir_folder + '/*.tif')
         tif_files = glob.glob(tif_path)
         # Open each file and add them to a list
@@ -53,12 +51,17 @@ if __name__=="__main__":
             "crs": src_files_to_mosaic[0].crs
         })
 
-        # Write the mosaic to a new file
-        output_file = f'./output/merged_output{dir_folder}.tif'
+        # Write the image to a new file
+        output_file = f'./output/{year}/merged_output{dir_folder}.tif'
         with rasterio.open(output_file, 'w', **out_meta) as dest:
             dest.write(mosaic)
+        print(f'Data saved to {output_file}')
 
-        # Optionally, display the merged DEM
+
+        # Visualize fixed file
+        #plt.imshow(filled_image, cmap='gray')
+        #plt.show()
+        # Display the merged DEM
         #show(mosaic, cmap='terrain')
         #plt.title("Merged TIFF Image")
         #plt.show()
@@ -67,4 +70,25 @@ if __name__=="__main__":
         for src in src_files_to_mosaic:
             src.close()
         root_path=temp
-    task3_merge2015()
+    i = ['2009','2015']
+    for year in i: 
+
+      # Merge the all files in one year into a single file
+      task3_merge(year)
+
+      # Call the gap filling methods
+      print(f"Filling gaps in {year} data...")
+      tiff_path = f"./task3/{year}final.tif"
+      img_8bit = read_and_preprocess_tiff(tiff_path)
+      result_img = connect_nearest_contours(img_8bit)
+
+      # Display the results
+      #cv2.imshow("Connected Flight Paths", result_img)
+      #cv2.waitKey(0)
+      #cv2.destroyAllWindows()
+
+      # Save as the result after connecting as a tif file
+      print(f"Saving connected data from{year}...")
+      output_tiff_path = f"./connected_route/connected{year}.tif"
+      save_as_tiff(result_img, output_tiff_path, tiff_path)
+      print(f"{year} data saved to {output_tiff_path}")
