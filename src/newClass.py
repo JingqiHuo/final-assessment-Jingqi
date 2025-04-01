@@ -6,7 +6,7 @@ from handleTiff import writeTiff
 
 
 
-
+ 
 # A class inherited from lvisData, adding new methods to reproject,
 #  preview waves and write them into .tif files
 class plotLVIS(lvisGround):
