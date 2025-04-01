@@ -18,7 +18,7 @@ import numpy as np
 def writeTiff(data,x,y,res,filename="lvis_image.tif",epsg=4326):
   '''
   Make a geotiff from an array of points
-  '''
+  ''' 
 
   # determine bounds
   minX=np.min(x)
