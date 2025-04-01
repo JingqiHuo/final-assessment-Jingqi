@@ -4,7 +4,7 @@ import os
 from glob import glob
 from newClass import plotLVIS
 import numpy as np
-
+ 
 def get_image_filenames(directory):
     images_in_folders = {}
     # Use rglob to find all directories and subdirectories
