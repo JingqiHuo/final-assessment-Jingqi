@@ -3,10 +3,12 @@
 This contains the files needed for the 2025 OOSA assignment. The raw LVIS data can be downloaded from [here](https://lvis.gsfc.nasa.gov/Data/Data_Download.html), but files over the Pine Island Glacier have been provided on the teaching drive.  We will be using files from [Operation IceBridge](https://www.nasa.gov/mission_pages/icebridge/index.html), which bridged the gap between ICESat and ICESat-2 using aircraft.
 
 ## Kickstart this program
-
-`python main.py --file-path "/geos/netdata/oosa/assignment/lvis/2015/*.h5"`
-
-`python main.py --file-path "/geos/netdata/oosa/assignment/lvis/2009/*.h5"`
+navigate to the directory src.
+```
+cd src
+python main.py --file-path "/geos/netdata/oosa/assignment/lvis/2015/*.h5"
+python main.py --file-path "/geos/netdata/oosa/assignment/lvis/2009/*.h5"
+```
 
 ## lvisClass.py
 
