@@ -46,12 +46,10 @@ def connect_nearest_contours(img):
         points.append({"left": left, "right": right, "top": top, "bottom": bottom})
 
     # Get the width of the lines, for drawing the filling lines
-    line_thickness = 1  # 1 for default
-    non_zero_pixels = np.count_nonzero(morph)  # Calculate the number of non-zero pixels
-    total_pixels = morph.size  # Total pixel number
+    line_thickness = 15  # 1 for default
 
-    if non_zero_pixels / total_pixels > 0.05:  # If the proportion of non-zero pixels and total pixels is to large, then draw a wider line
-        line_thickness = 30  
+
+    
 
     # Connect the closest endpoints
     for i in range(len(points)):
