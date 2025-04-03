@@ -17,7 +17,7 @@ def get_image_filenames(directory):
 @click.command()
 @click.option('--file-path', 'file_path', required=True, help='Path to the files to process.')
 def generate_tiff(file_path):
-  # Loop over the filelists
+  # Loop over the filelists and construct paths
     filelist = glob(file_path)
     if '2015' in filelist[0]:
       out_root_pr ='./tifs/2015/'
