@@ -5,12 +5,14 @@ from rasterio.merge import merge
 from merge_year import task3_merge
 import matplotlib.pyplot as plt
 from Connect_route import save_as_tiff,read_and_preprocess_tiff,connect_nearest_contours
+from volume_analysis import volume_analysis
+
+
 if __name__=="__main__":
    
     # Extract tif files from raw data
     #generate_tiff()
     #generate_tiff()
-    # 
     root ='./tifs'
     dirs = get_image_filenames(root)
     # Get the keys of the dictionary in insertion order
@@ -19,8 +21,9 @@ if __name__=="__main__":
     if len(keys) >= 2:
       del dirs[keys[0]]
       del dirs[keys[1]]
-    temp = 0
-    # Loop over the folders containing tiffs
+
+    # This code chunk is used to merge tif files from every single hdf5 file
+    # Loop over the folders containing tif files
     # dir_folder is the name of folder (same name with hdf5 file), means currently the program is working on 
     for dir_folder, dir_images in dirs.items():
         print(dir_folder)
@@ -33,6 +36,7 @@ if __name__=="__main__":
           year = 2009
         tif_path = str(root + dir_folder + '/*.tif')
         tif_files = glob.glob(tif_path)
+
         # Open each file and add them to a list
         src_files_to_mosaic = [rasterio.open(fp) for fp in tif_files]
 
@@ -57,23 +61,17 @@ if __name__=="__main__":
             dest.write(mosaic)
         print(f'Data saved to {output_file}')
 
-
-        # Visualize fixed file
-        #plt.imshow(filled_image, cmap='gray')
-        #plt.show()
-        # Display the merged DEM
-        #show(mosaic, cmap='terrain')
-        #plt.title("Merged TIFF Image")
-        #plt.show()
-
         # Close all files
         for src in src_files_to_mosaic:
             src.close()
-        root_path=temp
+        
+
+    input("\nPress enter to process task 3 and 4...\n")
+    # Fill the gaps between flight lines
     i = ['2009','2015']
     for year in i: 
 
-      # Merge the all files in one year into a single file
+      # Process the all files in one year into a single file
       task3_merge(year)
 
       # Call the gap filling methods
@@ -83,7 +81,7 @@ if __name__=="__main__":
       result_img = connect_nearest_contours(img_8bit)
 
       # Display the results
-      #cv2.imshow("Connected Flight Paths", result_img)
+      #cv2.imshow("Connected Flight Routes", result_img)
       #cv2.waitKey(0)
       #cv2.destroyAllWindows()
 
@@ -92,3 +90,19 @@ if __name__=="__main__":
       output_tiff_path = f"./connected_route/connected{year}.tif"
       save_as_tiff(result_img, output_tiff_path, tiff_path)
       print(f"{year} data saved to {output_tiff_path}")
+
+
+    input("\nPress enter to process task 5...\n")
+    # Analyzing glacier volume variation       
+    output_path = "./task5/elevation_change.tif"
+    dem_paths = glob.glob("./connected_route/*.tif")
+    # Analyzing glacier volume variation
+    print("Analyzing glacier volume variation...")
+    # Call the resampling method, ensuring two DEMs are in the same size and computable
+    volume_analysis.resample_raster(dem_paths[1], dem_paths[0], "./task5/DEM2015_resampled.tif")
+    # Create an object for analysis
+    analyzer = volume_analysis(dem_paths[0], "./task5/DEM2015_resampled.tif")
+    # Calculate and return the infleunce of glacier melt
+    analyzer.report_results()
+    # Generate the elevation variation file
+    analyzer.save_elevation_difference_tiff(output_path)
