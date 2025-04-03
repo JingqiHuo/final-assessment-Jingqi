@@ -45,8 +45,8 @@ def connect_nearest_contours(img):
         bottom = tuple(c[c[:, :, 1].argmax()][0])
         points.append({"left": left, "right": right, "top": top, "bottom": bottom})
 
-    # Get the width of the lines, for drawing the filling lines
-    line_thickness = 15  # 1 for default
+    # For drawing the filling lines
+    line_thickness = 15  # 15 for default
 
     # Connect the closest endpoints
     for i in range(len(points)):
