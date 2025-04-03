@@ -5,6 +5,7 @@ This contains the files needed for the 2025 OOSA assignment. The raw LVIS data c
 ## Kickstart this program
 
 `python main.py --file-path "/geos/netdata/oosa/assignment/lvis/2015/*.h5"`
+
 `python main.py --file-path "/geos/netdata/oosa/assignment/lvis/2009/*.h5"`
 
 ## lvisClass.py
