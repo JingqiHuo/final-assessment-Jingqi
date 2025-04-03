@@ -46,6 +46,6 @@ class plotLVIS(lvisGround):
   def writeDEM(self,res,outName):
     '''Write LVIS ground elevation data to a geotiff'''
 
-    # call function from tiffExample.py
+    # call function from handletiff.py
     writeTiff(self.zG,self.x,self.y,res,filename=outName,epsg=3031)
     return
