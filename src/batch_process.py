@@ -53,7 +53,7 @@ def generate_tiff(file_path):
           for y0 in np.arange(b.bounds[1],b.bounds[3],step):  # loop over y tiles
             y1=y0+step  # the top of the tile
 
-            # print the bounds to screen as a sanity check
+            # print the bounds to screen to check
             print("Tile between",x0,y0,"to",x1,y1)
 
             # read in all data within our spatial subset
@@ -62,7 +62,7 @@ def generate_tiff(file_path):
             if(lvis.nWaves==0):
               continue
 
-            # plot up some waveforms
+            # plot waveforms
             #lvis.plotWaves(step=int(lvis.nWaves/100),outRoot=outRoot+".x."+str(x0)+".y."+str(y0))  # this will print 100 waveforms
             
             # updating the filename as it goes
@@ -70,4 +70,4 @@ def generate_tiff(file_path):
             lvis.reprojectLVIS(3031) # reproject the data to local UTM zone
             lvis.estimateGround()    # find ground elevations
             outName = f"{out_root}lvisDEM.x.{x0}.y.{y0}.tif"  # set output filename
-            lvis.writeDEM(30,outName)                         # write data to a DEM at 30 m resolution
+            lvis.writeDEM(30,outName)                         # write data to a DEM at a sepcific resolution
