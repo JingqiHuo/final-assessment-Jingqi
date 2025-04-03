@@ -3,11 +3,12 @@
 This contains the files needed for the 2025 OOSA assignment. The raw LVIS data can be downloaded from [here](https://lvis.gsfc.nasa.gov/Data/Data_Download.html), but files over the Pine Island Glacier have been provided on the teaching drive.  We will be using files from [Operation IceBridge](https://www.nasa.gov/mission_pages/icebridge/index.html), which bridged the gap between ICESat and ICESat-2 using aircraft.
 
 ## Kickstart this program
-navigate to the directory src.
+First of all, navigate to the directory src.
 ```
 cd src
-python main.py --file-path "/geos/netdata/oosa/assignment/lvis/2015/*.h5"
-python main.py --file-path "/geos/netdata/oosa/assignment/lvis/2009/*.h5"
+python task1.py --file-path "/geos/netdata/oosa/assignment/lvis/2015/*.h5"
+python task1.py --file-path "/geos/netdata/oosa/assignment/lvis/2009/*.h5"
+python main.py
 ```
 
 ## lvisClass.py
@@ -116,6 +117,9 @@ Note that the estimateGround() method can take a long time. It is recommended to
 
 Contains an example of how to call processLVIS.py on a 15th of a dataset. Intended for testing only. It could form the centre of a batch loop. It is a simple script with no options.
 
+## task1.py
+
+Contains 3 lines of code, is used to extract data from hdf5 files. Need to be run twice because the particularity of command parse.
 
 ## handleTiff.py
 
