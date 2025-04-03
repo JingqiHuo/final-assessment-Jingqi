@@ -13,9 +13,6 @@ class plotLVIS(lvisGround):
   '''A class, ineriting from lvisData
      and add a plotting method'''
 
-
-  
-    
   def reprojectBounds(self,outEPSG):
     '''A method to reproject the file bounds'''
     # set projections

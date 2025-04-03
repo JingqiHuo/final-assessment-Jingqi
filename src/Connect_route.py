@@ -48,9 +48,6 @@ def connect_nearest_contours(img):
     # Get the width of the lines, for drawing the filling lines
     line_thickness = 15  # 1 for default
 
-
-    
-
     # Connect the closest endpoints
     for i in range(len(points)):
         min_dist = float("inf")
