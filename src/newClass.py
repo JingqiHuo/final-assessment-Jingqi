@@ -14,13 +14,7 @@ class plotLVIS(lvisGround):
      and add a plotting method'''
 
 
-  def reprojectLVIS(self,outEPSG):
-    '''A method to reproject the footprint coordinates'''
-    # set projections
-    inProj=Proj("epsg:4326")
-    outProj=Proj("epsg:"+str(outEPSG))
-    # reproject data
-    self.x,self.y=transform(inProj, outProj, self.lat, self.lon)
+  
     
   def reprojectBounds(self,outEPSG):
     '''A method to reproject the file bounds'''
