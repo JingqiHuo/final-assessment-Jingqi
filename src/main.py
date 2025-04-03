@@ -9,15 +9,12 @@ from volume_analysis import volume_analysis
 
 
 if __name__=="__main__":
-   
-    # Extract tif files from raw data
-    #generate_tiff()
-    #generate_tiff()
+    
     root ='./tifs'
     dirs = get_image_filenames(root)
     # Get the keys of the dictionary in insertion order
     keys = list(dirs.keys())
-    # Delete the first two empty keys
+    # Delete the first two empty keys (two parent directories)
     if len(keys) >= 2:
       del dirs[keys[0]]
       del dirs[keys[1]]
@@ -92,17 +89,24 @@ if __name__=="__main__":
       print(f"{year} data saved to {output_tiff_path}")
 
 
+    
     input("\nPress enter to process task 5...\n")
+    
     # Analyzing glacier volume variation       
     output_path = "./task5/elevation_change.tif"
     dem_paths = glob.glob("./connected_route/*.tif")
+    
     # Analyzing glacier volume variation
     print("Analyzing glacier volume variation...")
+    
     # Call the resampling method, ensuring two DEMs are in the same size and computable
     volume_analysis.resample_raster(dem_paths[1], dem_paths[0], "./task5/DEM2015_resampled.tif")
+    
     # Create an object for analysis
     analyzer = volume_analysis(dem_paths[0], "./task5/DEM2015_resampled.tif")
-    # Calculate and return the infleunce of glacier melt
+    
+    # Calculate and return the influence of glacier melt
     analyzer.report_results()
+    
     # Generate the elevation variation file
     analyzer.save_elevation_difference_tiff(output_path)
